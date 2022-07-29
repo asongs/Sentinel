@@ -61,18 +61,21 @@ public class StandaloneRedisDataSourceTest {
 
     @Before
     public void buildResource() {
-        try {
+//        try {
             // Bind to a random port.
-            server = RedisServer.newRedisServer();
-            server.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//            server = RedisServer.newRedisServer(6379);
+//            server = RedisServer.newRedisServer();
+//            server.start();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        String redisHost = "127.0.0.1";
+        int redisPort = 6379;
         Converter<String, List<FlowRule>> flowConfigParser = buildFlowConfigParser();
-        client = RedisClient.create(RedisURI.create(server.getHost(), server.getBindPort()));
+        client = RedisClient.create(RedisURI.create(redisHost, redisPort));
         RedisConnectionConfig config = RedisConnectionConfig.builder()
-            .withHost(server.getHost())
-            .withPort(server.getBindPort())
+            .withHost(redisHost)
+            .withPort(redisPort)
             .build();
         initRedisRuleData();
         ReadableDataSource<String, List<FlowRule>> redisDataSource = new RedisDataSource<List<FlowRule>>(config,
@@ -133,10 +136,10 @@ public class StandaloneRedisDataSourceTest {
 
     @After
     public void clearResource() {
-        RedisCommands<String, String> stringRedisCommands = client.connect().sync();
-        stringRedisCommands.del(ruleKey);
-        client.shutdown();
-        server.stop();
+//        RedisCommands<String, String> stringRedisCommands = client.connect().sync();
+//        stringRedisCommands.del(ruleKey);
+//        client.shutdown();
+//        server.stop();
         server = null;
     }
 
