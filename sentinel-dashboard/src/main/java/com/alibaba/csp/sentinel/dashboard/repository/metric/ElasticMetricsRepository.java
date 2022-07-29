@@ -65,9 +65,9 @@ public class ElasticMetricsRepository implements MetricsRepository<MetricEntity>
         }
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
-        boolQueryBuilder.must(QueryBuilders.termQuery("app", app));
-        boolQueryBuilder.must(QueryBuilders.termQuery("resource", resource));
-        boolQueryBuilder.must(QueryBuilders.rangeQuery("gmtCreate").gte(startTime).lte(endTime));
+//        boolQueryBuilder.must(QueryBuilders.termQuery("app", app));
+//        boolQueryBuilder.must(QueryBuilders.termQuery("resource", resource));
+//        boolQueryBuilder.must(QueryBuilders.rangeQuery("gmtCreate").gte(startTime).lte(endTime));
         SearchHits<ElasticMetricEntity> result = em.search(queryBuilder.withQuery(boolQueryBuilder).build(), ElasticMetricEntity.class);
 
         if (!result.hasSearchHits()) {
@@ -96,7 +96,7 @@ public class ElasticMetricsRepository implements MetricsRepository<MetricEntity>
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
         boolQueryBuilder.must(QueryBuilders.termQuery("app", app));
 
-        long startTime = System.currentTimeMillis() - 1000 * 60;
+        long startTime = System.currentTimeMillis() - 1000 * 60 * 60;
         boolQueryBuilder.must(QueryBuilders.rangeQuery("gmtCreate").gte(Date.from(Instant.ofEpochMilli(startTime)).getTime()));
         SearchHits<ElasticMetricEntity> searchHits = em.search(queryBuilder.withQuery(boolQueryBuilder).build(), ElasticMetricEntity.class);
 
